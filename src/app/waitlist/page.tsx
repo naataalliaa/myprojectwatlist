@@ -1,7 +1,12 @@
-"use client"; // Important: make the whole page client-side
+"use client";
 
-import WaitlistForm from "./WaitlistForm";
+import { Suspense } from "react";
+import WaitlistFormComponent from "./WaitlistForm"; // rename import
 
-export default function WaitlistPage() {
-  return <WaitlistForm />;
+export default function WaitlistForm() { // wrapper
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <WaitlistFormComponent />
+    </Suspense>
+  );
 }
