@@ -44,6 +44,12 @@ export default function WaitlistForm() {
         setPosition(user.waitlist_position);
         setTop50Position(user.top_position);
         if (user.referral_code) setReferralCode(user.referral_code);
+
+          // Scroll to position card
+  setTimeout(() => {
+    document.querySelector('.position-card')?.scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+
       }
     } catch (err) {
       console.error(err);
@@ -90,26 +96,28 @@ export default function WaitlistForm() {
 
           {status && <p className="status-text">{status}</p>}
 
-          {(position !== null || referralCode) && (
-            <div className="position-card">
-              {position !== null && <p>Your overall position: <strong>#{position}</strong></p>}
-              {top50Position !== null && <p>Top 50 rank: <strong>#{top50Position}</strong></p>}
-              {referralCode && (
-                <p>
-                  Your referral code: <strong>{referralCode}</strong>
-                  <br />
-                  Share your referral link:{" "}
-                  <a
-                    href={`https://www.bliqz.com/waitlist?ref=${referralCode}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    https://www.bliqz.com/waitlist?ref={referralCode}
-                  </a>
-                </p>
-              )}
-            </div>
-          )}
+          {(position !== null || top50Position !== null || referralCode) && (
+  <div className="position-card">
+    {position !== null && <p>Your overall position: <strong>#{position}</strong></p>}
+    {top50Position !== null && <p>Top 50 rank: <strong>#{top50Position}</strong></p>}
+    {referralCode && (
+      <p>
+        Your referral code: <strong>{referralCode}</strong>
+        <br />
+        Share your referral link:{" "}
+        <a
+  href={`https://www.bliqz.com/waitlist?ref=${referralCode}`}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  {`https://www.bliqz.com/waitlist?ref=${referralCode}`}
+</a>
+
+      </p>
+    )}
+  </div>
+)}
+
 
           {referral && !referralCode && (
             <p className="referral-text">

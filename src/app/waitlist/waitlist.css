@@ -7,30 +7,44 @@
 .waitlist-container {
   display: flex;
   flex-direction: column;
-  /* min-height: 100vh; */
   font-family: 'Inter', sans-serif;
-  height: calc(100vh - var(--footer-height)); /* Full viewport minus footer */
-  overflow: hidden; /* No scroll */
+  min-height: 100vh;
+  overflow-y: auto; /* allow scrolling if needed */
+
 }
+
+.waitlist-column {
+  background: #ffffff;
+  flex: 1;
+  padding: 3rem 2rem 3rem 2rem; /* reduced bottom padding, footer handled by container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+}
+
+.position-card {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: #171d23;
+  border-radius: 0.75rem;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  color: white;
+}
+
+.position-card a {
+  color: #3b82f6;
+  text-decoration: underline;
+  word-break: break-all; /* ensure long referral URLs wrap */
+}
+
 
 @media (min-width: 1024px) {
   .waitlist-container {
     flex-direction: row;
   }
-}
-
-/* Left column - waitlist form */
-.waitlist-column {
-  background: #ffffff;
-  flex: 1;
-  padding: 3rem 2rem 6rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  overflow: hidden;
-  padding-bottom: calc(var(--footer-height) + 2rem);
 }
 
 .logo {
@@ -109,14 +123,7 @@
   text-align: center;
 }
 
-.position-card {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #171d23;
-  border-radius: 0.75rem;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
+
 
 .referral-text {
   margin-top: 0.5rem;
@@ -187,9 +194,10 @@
 }
 
 .footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  /* remove fixed positioning */
+  position: relative; /* was fixed */
+  bottom: auto;
+  left: auto;
   width: 100%;
   height: var(--footer-height);
   background: #f9fafb;
@@ -198,11 +206,12 @@
   font-size: 0.875rem;
   color: #374151;
   border-top: 1px solid #e5e7eb;
-  z-index: 999;
+  z-index: 1; /* no need for high z-index */
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 
 .footer-links {
   margin-top: 0.5rem;
