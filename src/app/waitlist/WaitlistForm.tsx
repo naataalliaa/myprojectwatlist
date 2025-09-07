@@ -57,8 +57,18 @@ export default function WaitlistForm() {
   return (
     <div className="waitlist-container">
       <div className="waitlist-column">
-        <h1>Join the Waitlist</h1>
-        <p className="subtitle">Be part of the first 50 to get exclusive benefits!</p>
+        {/* Logo */}
+        <div className="logo">
+          <img src="ok.png" alt="Platform Logo" />
+          {/* <h2>BLIQZ</h2> */}
+        </div>
+
+        <h1>Secure, certify, and prove ownership of your digital content</h1>
+        <p className="subtitle">
+  First 50 people at launch will get 50% off any subscription
+  <br /><br /> 
+  Q1 2026
+  </p>
 
         <form onSubmit={handleSubmit} className="waitlist-form">
           <input
@@ -83,11 +93,11 @@ export default function WaitlistForm() {
                 <br />
                 Share your referral link:{" "}
                 <a
-                  href={`https://yourdomain.com/waitlist?ref=${referralCode}`}
+                  href={`https://www.bliqz.com/waitlist?ref=${referralCode}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  https://yourdomain.com/waitlist?ref={referralCode}
+                  https://www.bliqz.com/waitlist?ref={referralCode}
                 </a>
               </p>
             )}
@@ -100,26 +110,22 @@ export default function WaitlistForm() {
           </p>
         )}
       </div>
+
       <div className="features-column">
         <h2>Why Join Us?</h2>
         <div className="feature-box">
-          <span>🚀</span>
-          <p>Early access to cutting-edge features</p>
+          <p>Protect your digital assets with certified ownership records</p>
         </div>
         <div className="feature-box">
-          <span>💡</span>
-          <p>Exclusive referral rewards</p>
+          <p>Verify originality and authorship, AI, human or hybrid</p>
         </div>
         <div className="feature-box">
-          <span>📈</span>
-          <p>Track your waitlist position in real-time</p>
+          <p>Share & Transfer securely with traceable logs</p>
         </div>
         <div className="feature-box">
-          <span>🔒</span>
-          <p>Secure and private email management</p>
+          <p>Get Legal Proof for disputes, DMCA takedowns, and IP enforcement</p>
         </div>
       </div>
     </div>
   );
 }
-

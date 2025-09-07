@@ -1,72 +1,57 @@
-/* Layout */
+/* Container */
 .waitlist-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: 'Inter', sans-serif;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .waitlist-container {
     flex-direction: row;
   }
 }
 
-/* Left column - features */
-.features-column {
-  background: #ebf8ff;
-  flex: 1;
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.features-column h2 {
-  font-size: 2.5rem;
-  color: #1e40af;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-}
-
-.feature-box {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.feature-box span {
-  font-size: 2rem;
-}
-
-.feature-box p {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #000;
-}
-
-/* Right column - waitlist form */
+/* Left column - waitlist form */
 .waitlist-column {
   background: #ffffff;
   flex: 1;
-  padding: 3rem;
+  padding: 4rem 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
 }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.logo img {
+  width: 220px;
+  height: 100px;
+}
+
+/* .logo h2 {
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: #08080a;
+} */
 
 .waitlist-column h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #433a08;
   text-align: center;
-  color:#020e28
 }
 
-.waitlist-column p.subtitle {
+.subtitle {
   font-size: 1.125rem;
-  color: #0d2241;
+  color: #475569;
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -78,28 +63,28 @@
   gap: 1rem;
   width: 100%;
   max-width: 400px;
-  background: #f9fafb;
+  background: #f1f5f9;
   padding: 2rem;
   border-radius: 1rem;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.08);
 }
 
 .waitlist-form input {
   padding: 1rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #cbd5e1;
   border-radius: 0.75rem;
   font-size: 1rem;
 }
 
 .waitlist-form input:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.5);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
 .waitlist-form button {
   padding: 1rem;
-  background: #2563eb;
+  background: #3b82f6;
   color: white;
   font-weight: 600;
   border: none;
@@ -110,7 +95,7 @@
 }
 
 .waitlist-form button:hover {
-  background: #1d4ed8;
+  background: #2563eb;
 }
 
 /* Status / positions */
@@ -124,10 +109,10 @@
 .position-card {
   margin-top: 1rem;
   padding: 1rem;
-  background: #272419;
+  background: #171d23;
   border-radius: 0.75rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 .referral-text {
@@ -135,4 +120,46 @@
   color: #6b7280;
   font-size: 0.875rem;
   text-align: center;
+}
+
+/* Right column - features & illustration */
+.features-column {
+  background: #ebf8ff;
+  flex: 1;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
+
+.features-column h2 {
+  font-size: 2rem;
+  color: #1e40af;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.feature-box {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.feature-box p {
+  font-size: 1.125rem;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+/* Side illustration */
+.side-image {
+  width: 250px;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
