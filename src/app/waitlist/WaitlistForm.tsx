@@ -1,4 +1,4 @@
-"use client"; // Must be at the very top
+"use client";
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -18,10 +18,10 @@ export default function WaitlistForm() {
     setStatus("Submitting...");
     setPosition(null);
     setTop50Position(null);
-    setReferralCode(null);
+    // Keep referral code if already exists or comes from URL
+    if (!referralCode) setReferralCode(referral || null);
 
     try {
-      // Signup API
       const res = await fetch("/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -35,9 +35,9 @@ export default function WaitlistForm() {
       }
 
       setStatus(data.message || "Successfully signed up!");
-      setReferralCode(data.referral_code || null);
+      if (!referralCode && data.referral_code) setReferralCode(data.referral_code);
 
-      // Fetch latest user info to get positions
+      // Only update positions, do NOT overwrite referralCode
       const posRes = await fetch("/api/users");
       const users = await posRes.json();
       const user = users.find((u: any) => u.email === email);
@@ -45,7 +45,8 @@ export default function WaitlistForm() {
       if (user) {
         setPosition(user.waitlist_position);
         setTop50Position(user.top_position);
-        setReferralCode(user.referral_code);
+        // Only overwrite referralCode if user has it
+        if (user.referral_code) setReferralCode(user.referral_code);
       }
     } catch (err) {
       console.error(err);
@@ -72,10 +73,10 @@ export default function WaitlistForm() {
 
         {status && <p className="status-text">{status}</p>}
 
-        {(position || referralCode) && (
+        {(position !== null || referralCode) && (
           <div className="position-card">
-            {position && <p>Your overall position: <strong>#{position}</strong></p>}
-            {top50Position && <p>Top 50 rank: <strong>#{top50Position}</strong></p>}
+            {position !== null && <p>Your overall position: <strong>#{position}</strong></p>}
+            {top50Position !== null && <p>Top 50 rank: <strong>#{top50Position}</strong></p>}
             {referralCode && (
               <p>
                 Your referral code: <strong>{referralCode}</strong>
@@ -93,13 +94,12 @@ export default function WaitlistForm() {
           </div>
         )}
 
-        {referral && (
+        {referral && !referralCode && (
           <p className="referral-text">
             You joined using referral code: <strong>{referral}</strong>
           </p>
         )}
       </div>
-
       <div className="features-column">
         <h2>Why Join Us?</h2>
         <div className="feature-box">
@@ -122,3 +122,4 @@ export default function WaitlistForm() {
     </div>
   );
 }
+
