@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import "./waitlist.css";
 
-export default function WaitlistFormInner() {
+export default function WaitlistForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [position, setPosition] = useState<number | null>(null);
