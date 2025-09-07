@@ -1,0 +1,138 @@
+/* Layout */
+.waitlist-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .waitlist-container {
+    flex-direction: row;
+  }
+}
+
+/* Left column - features */
+.features-column {
+  background: #ebf8ff;
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.features-column h2 {
+  font-size: 2.5rem;
+  color: #1e40af;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.feature-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.feature-box span {
+  font-size: 2rem;
+}
+
+.feature-box p {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #000;
+}
+
+/* Right column - waitlist form */
+.waitlist-column {
+  background: #ffffff;
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.waitlist-column h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  color:#020e28
+}
+
+.waitlist-column p.subtitle {
+  font-size: 1.125rem;
+  color: #0d2241;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Form */
+.waitlist-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+  background: #f9fafb;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.waitlist-form input {
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+}
+
+.waitlist-form input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.5);
+}
+
+.waitlist-form button {
+  padding: 1rem;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.waitlist-form button:hover {
+  background: #1d4ed8;
+}
+
+/* Status / positions */
+.status-text {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #1f2937;
+  text-align: center;
+}
+
+.position-card {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #272419;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.referral-text {
+  margin-top: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  text-align: center;
+}
