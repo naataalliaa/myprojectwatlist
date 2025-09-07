@@ -1,4 +1,9 @@
 /* Container */
+
+:root {
+  --footer-height: 80px; /* match your footer height */
+}
+
 .waitlist-container {
   display: flex;
   flex-direction: column;
@@ -25,6 +30,7 @@
   justify-content: center;
   gap: 1.5rem;
   overflow: hidden;
+  padding-bottom: calc(var(--footer-height) + 2rem);
 }
 
 .logo {

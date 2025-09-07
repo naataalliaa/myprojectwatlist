@@ -80,8 +80,8 @@ export default function WaitlistForm() {
             <div className="consent">
               <input type="checkbox" id="consent" required />
               <label htmlFor="consent">
-                I agree to the <a href="/terms" target="_blank">Terms</a> and
-                <a href="/privacy" target="_blank"> Privacy Policy</a>, and consent to receive waitlist emails.
+                I agree to the <a href="Terms of Service.pdf" target="_blank">Terms</a> and
+                <a href="/Privacy Policy.pdf" target="_blank"> Privacy Policy</a>, and consent to receive waitlist emails.
               </label>
             </div>
 
