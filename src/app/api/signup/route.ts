@@ -48,7 +48,8 @@ export async function POST(req: NextRequest) {
         email,
         referral_code: referralCode,
         referred_by: referral || null,
-        waitlist_position: waitlistPosition
+        waitlist_position: waitlistPosition,
+        referral_count: 0
       }])
       .select('*')
       .single();
@@ -57,8 +58,6 @@ export async function POST(req: NextRequest) {
       console.error("Supabase insert error:", insertError);
       return NextResponse.json({ error: insertError.message }, { status: 500 });
     }
-
-    console.log({ newUser, insertError }); 
 
     if (!newUser) {
       throw new Error("No user returned after insert");
@@ -70,10 +69,11 @@ export async function POST(req: NextRequest) {
       to: email,
       subject: "You joined the waitlist!",
       html: `<p>Your overall position is #${waitlistPosition}</p>
-             <p>Share your referral link: <a href="https://yourdomain.com/waitlist?ref=${referralCode}">link</a></p>`
+             <p>Share your referral link: 
+             <a href="https://yourdomain.com/waitlist?ref=${referralCode}">Referral Link</a></p>`
     });
 
-    // 5. Handle referral
+    // 5. Handle referral logic
     let referrerEmail: string | null = null;
     if (referral) {
       const { data: referrer } = await supabase
@@ -84,12 +84,46 @@ export async function POST(req: NextRequest) {
 
       if (referrer) {
         referrerEmail = referrer.email;
-        await supabase
-          .from('waitlist')
-          .update({ referral_count: (referrer.referral_count || 0) + 1 })
-          .eq('id', referrer.id);
+
+        // Increase referral count
+        // await supabase
+        //   .from('waitlist')
+        //   .update({ referral_count: (referrer.referral_count || 0) + 1 })
+        //   .eq('id', referrer.id);
+
+           // ✅ Atomic referral count increment
+        await supabase.rpc("increment_referral_count", { referrer_id: referrer.id });
+
+        // ✅ Re-fetch referrer after increment
+        const { data: updatedReferrer } = await supabase
+        .from('waitlist')
+       .select('*')
+       .eq('id', referrer.id)
+       .single();
+
+       if (updatedReferrer) {
+        // Move referrer up 2 spots
+        // const newPosition = Math.max(referrer.waitlist_position - 2, 1);
+        const newPosition = Math.max(updatedReferrer.waitlist_position - 2, 1);
+
+        // if (newPosition < referrer.waitlist_position) {
+          if (newPosition < updatedReferrer.waitlist_position) {
+          // Shift other users down so positions remain unique
+          await supabase.rpc("shift_users_down", {
+            new_pos: newPosition,
+            // old_pos: referrer.waitlist_position
+            old_pos: updatedReferrer.waitlist_position
+          });
+
+          // Update referrer position
+          await supabase
+            .from('waitlist')
+            .update({ waitlist_position: newPosition })
+            .eq('id', updatedReferrer.id);
+        }
       }
     }
+ }
 
     // 6. Recalculate Top 50
     const { data: allUsers } = await supabase
@@ -147,7 +181,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       message: "Signed up successfully!",
-      referral_code: newUser.referral_code,   // <--- send the referral code
+      referral_code: newUser.referral_code,
       waitlist_position: newUser.waitlist_position,
       top_position: newUser.top_position || null
     }, { status: 200 });

@@ -1,20 +1,37 @@
 // src/app/api/send-waitlist-email/route.ts
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { createClient } from "@supabase/supabase-js";
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 interface EmailData {
   email: string;
   position: number;
   top50Position: number | null;
   referralCode: string;
-  type: "welcome" | "position_update"; // distinguish the type of email
+  type: "welcome" | "position_update";
 }
 
 export async function POST(req: Request) {
   try {
     const { email, position, top50Position, referralCode, type } = (await req.json()) as EmailData;
+
+    // Check if user is subscribed
+    const { data: user } = await supabase
+      .from("waitlist")
+      .select("subscribed")
+      .eq("email", email)
+      .single();
+
+    if (user && user.subscribed === false) {
+      return NextResponse.json({ success: false, message: "User unsubscribed" }, { status: 403 });
+    }
 
     const subject =
       type === "welcome"
@@ -26,10 +43,12 @@ export async function POST(req: Request) {
         ? "Hi there, thank you for joining our waitlist! We’re excited to have you on board."
         : "Hi there, your waitlist position has been updated! Check out your latest status below.";
 
+    // Add unsubscribe link
+    const unsubscribeLink = `https://www.bliqz.com/api/unsubscribe?email=${encodeURIComponent(email)}`;
+
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e5e7eb; border-radius: 10px; background-color: #f9fafb;">
         
-        <!-- Logo / Photo -->
         <div style="text-align: center; margin-bottom: 20px;">
           <img src="https://www.bliqz.com/ok.png" alt="Bliqz Logo" style="width: 120px; height: auto;" />
         </div> 
@@ -51,12 +70,16 @@ export async function POST(req: Request) {
             : "Keep sharing your referral link to climb higher on the waitlist!"}
         </p>
 
+        <p style="margin-top: 30px; font-size: 12px; color: #666;">
+          If you want to unsubscribe from these emails, click <a href="${unsubscribeLink}">here</a>.
+        </p>
+
         <p><br/>The Team</p>
       </div>
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "welcome@bliqz.com", 
+      from: "welcome@bliqz.com",
       to: email,
       subject,
       html: emailHtml,
