@@ -65,12 +65,12 @@ export async function POST(req: NextRequest) {
 
     // 4. Send confirmation email to new user
     await resend.emails.send({
-      from: "Waitlist <onboarding@yourdomain.com>",
+      from: "welcome@bliqz.com",
       to: email,
       subject: "You joined the waitlist!",
       html: `<p>Your overall position is #${waitlistPosition}</p>
              <p>Share your referral link: 
-             <a href="https://yourdomain.com/waitlist?ref=${referralCode}">Referral Link</a></p>`
+             <a href="https://bliqz.com/waitlist?ref=${referralCode}">Referral Link</a></p>`
     });
 
     // 5. Handle referral logic
@@ -150,7 +150,7 @@ export async function POST(req: NextRequest) {
     const newUserTop = top50.findIndex(u => u.email === email) + 1;
     if (newUserTop > 0 && newUserTop <= 50) {
       await resend.emails.send({
-        from: "Waitlist <onboarding@yourdomain.com>",
+        from: "welcome@bliqz.com",
         to: email,
         subject: `You're in Top 50! #${newUserTop}`,
         html: `<p>Congrats! Top 50 position: #${newUserTop}</p>
@@ -169,7 +169,7 @@ export async function POST(req: NextRequest) {
       if (referrerData) {
         const referrerTop = top50.findIndex(u => u.email === referrerEmail) + 1;
         await resend.emails.send({
-          from: "Waitlist <onboarding@yourdomain.com>",
+          from: "welcome@bliqz.com",
           to: referrerEmail,
           subject: "Your position updated!",
           html: `<p>Your referral joined the waitlist!</p>
