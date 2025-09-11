@@ -46,6 +46,7 @@ export async function POST(req: Request) {
     // Add unsubscribe link
     const unsubscribeLink = `https://www.bliqz.com/api/unsubscribe?email=${encodeURIComponent(email)}`;
 
+    // HTML content
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 20px auto; padding: 30px; border: 1px solid #e5e7eb; border-radius: 12px; background-color: #f9fafb; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
 
@@ -95,11 +96,31 @@ export async function POST(req: Request) {
       </div>
     `;
 
+    // Plain-text fallback
+    const emailText = `
+${greeting}
+
+Your Waitlist Info:
+- Overall position: #${position}
+${top50Position !== null ? `- Top 50 rank: #${top50Position}` : ""}
+- Your referral code: ${referralCode}
+- Share your referral link: https://www.bliqz.com/waitlist?ref=${referralCode}
+
+${type === "welcome"
+  ? "Invite friends and climb the waitlist faster! Enjoy perks like 50% off any subscription."
+  : "Keep sharing your referral link to climb higher on the waitlist!"}
+
+If you want to unsubscribe from these emails, visit: ${unsubscribeLink}
+
+The Team
+`;
+
     const emailResponse = await resend.emails.send({
       from: "welcome@bliqz.com",
       to: email,
       subject,
       html: emailHtml,
+      text: emailText, // ✅ ensures proper plain-text fallback
     });
 
     return NextResponse.json({ success: true, emailResponse });
